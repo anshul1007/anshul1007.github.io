@@ -1,7 +1,56 @@
+<!DOCTYPE html>
 <html>
+
 <head>
+    <title>Flag Quiz</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script type="text/javascript" src="/script/flagApp.js"></script>
 </head>
 <body>
-Test2
+    <div class="container" ng-app="flagApp" ng-controller="GetflagCtrl">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <p>
+                        <div>
+                            <button class="btn btn-info btn-sm" disabled type="button">
+                                Pick Color <span id="pickedColor" class="badge" style="background-color: #ffffff">&nbsp;</span>
+                            </button>
+                            <color-menu ng-repeat="color in colors" />
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <button type="submit" ng-click="getFlag()">India</button>
+                    {{flag}}
+            <div id="svg-wrapper"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function getFlag() {
+            $.get("svg/countries/india/flag.txt", function (data) {
+                var newsvg = document.getElementById("svg-wrapper");
+                newsvg.innerHTML = data;
+            });
+        }
+
+        $(document).ready(function () {
+            $('body').on('click', '[actualcolor]', function () {
+                $(this).attr("fill", $("#pickedColor").css("background-color"))
+            });
+        });
+    </script>
 </body>
+
 </html>
