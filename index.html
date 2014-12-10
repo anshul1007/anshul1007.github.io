@@ -30,25 +30,9 @@
             <div class="col-lg-6">
                 <div class="row">
                     <button type="submit" ng-click="getFlag()">India</button>
-                    <svg-Wrapper svg-data="{{flag}}"></svg-Wrapper>
+                    <svg-wrapper svg-data="{{flag}}"></svg-wrapper>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!--<script type="text/javascript">
-        function getFlag() {
-            $.get("svg/countries/india/flag.txt", function (data) {
-                var newsvg = document.getElementById("svg-wrapper");
-                newsvg.innerHTML = data;
-            });
-        }
-
-        $(document).ready(function () {
-            $('body').on('click', '[actualcolor]', function () {
-                $(this).attr("fill", $("#pickedColor").css("background-color"))
-            });
-        });
-    </script>-->
 </body>
-
 </html>
