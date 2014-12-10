@@ -1,7 +1,9 @@
 var flagApp = angular.module('flagApp', []);
 
 flagApp.controller('GetflagCtrl', function ($log, $scope, flagService) {
-    $scope.flag = 'abc';
+    $scope.flag = '<svg width="100" height="100">' +
+        '<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />' +
+        '</svg>';
     $scope.colors = [
         { color: '#ffffff' },
         { color: '#007a3d' },
@@ -51,6 +53,24 @@ flagApp.directive('colorMenu', function () {
             elem.bind('click', function (e) {
                 $("#pickedColor").css("background-color", $(this).css("color"));
             });
+        }
+    };
+});
+
+flagApp.directive('svgWrapper', function () {
+    return {
+        restrict: 'E',
+        replace: 'true',
+        template: '<div id="svg-wrapper"></div>' +
+                '</div>',
+        link: function (scope, elem, attrs) {
+            attrs.$observe('svgData', function (value) {
+                $(elem).empty().append(scope.flag);
+                $("[actualcolor]").on('click', function () {
+                    alert($(this).attr("fill"));
+                    //$(this).attr("fill", $("#pickedColor").css("background-color"))
+                });
+            })
         }
     };
 });
