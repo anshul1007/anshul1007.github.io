@@ -50,12 +50,12 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li><a href="#">Home</a></li>
-                    <li class="active"><a href="#">Flag</a></li>
-                </ul>
-                <ul class="nav nav-sidebar">
-                    <li> <a href="http://www.crwflags.com/fotw/flags/xf-csts.html" target="_blank">Flag Statistics</a></li>
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="#">Flags</a></li>
+                    <li> <a href="http://www.crwflags.com/fotw/flags/xf-csts.html" target="_blank">Flag Statistics</a></li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -76,7 +76,14 @@
                     </div>
                 </div>
                 <div class="placeholders" ng-hide="hideControl()">
-                    <svg-wrapper svg-data="{{flag}}"></svg-wrapper>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7">
+                            <svg-wrapper svg-data="{{flag}}"></svg-wrapper>
+                        </div>
+                        <div class="col-sm-12 col-md-5">
+                            <h3 class="page-header">Flag Facts</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

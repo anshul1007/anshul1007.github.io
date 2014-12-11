@@ -1,9 +1,3 @@
-<html>
-<head>
-
-</head>
-<body>
-
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1235 650"  width="100%" height="100%">
 <defs>
@@ -30,5 +24,3 @@
 <use xlink:href="#stripe" y="600"/>
 <rect width="494" height="350" fill="#cccccc"  actualColor="#5b2d89"  stroke="#000"/>
 <use xlink:href="#u" transform="translate(247,175) scale(650)"/></svg>
-</body>
-</html>

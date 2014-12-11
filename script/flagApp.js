@@ -85,7 +85,8 @@ flagApp.factory('flagService', function ($http, $log, $q) {
         getCountries: function () {
             return [
                         { name: 'India', value: 'india' },
-                        { name: 'Sri Lanka', value: 'srilanka' }
+                        { name: 'Sri Lanka', value: 'srilanka' },
+                        { name: 'United States', value: 'unitedstates' }
             ];
         }
     }
