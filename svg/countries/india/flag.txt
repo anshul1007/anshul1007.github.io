@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 150" width="600" height="400">
-    <rect width="225" height="150" fill="#f93" actualcolor="#f93"/>
-    <rect width="225" height="50" y="50" fill="#fff" />
-    <rect width="225" height="50" y="100" fill="#128807" actualcolor="#f00" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 150" width="100%" height="100%">
+    <rect width="225" height="150" fill="#ffffff" actualColor="#ff9933"/>
+    <rect width="225" height="50" y="50" fill="#ffffff" actualColor="#ffffff"/>
+    <rect width="225" height="50" y="100" fill="#ffffff" actualcolor="#007a3d" />
     <g transform="translate(112.5,75)">
-        <circle r="20" fill="#008" actualcolor="fff"/>
+        <circle r="20" fill="#008"/>
         <circle r="17.5" fill="#fff" />
         <circle r="3.5" fill="#008" />
         <g id="d">
