@@ -1,0 +1,14 @@
+[
+                    { color: '#ffffff' }, 
+                    { color: '#cc0000' }, 
+                    { color: '#0000cc' }, 
+                    { color: '#007f00' }, 
+                    { color: '#dfc614' }, 
+                    { color: '#ff6600' }, 
+                    { color: '#7a5230' }, 
+                    { color: '#bdbdbd' }, 
+                    { color: '#5b2d89' }, 
+                    { color: '#00a1de' },
+                    { color: '#ff99cc' },
+                    { color: '#000000' } 
+            ]

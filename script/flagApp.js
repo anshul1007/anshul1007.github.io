@@ -17,8 +17,14 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.correct = -1;
     $scope.attempt = 0;
 
-    $scope.getStatus = function () {
-        $scope.status = calculationService.getStatus($scope.correct, $scope.total);
+    $scope.getProgress = function () {
+        $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
+    };
+
+    $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
+
+    $scope.hideControl = function () {
+        return angular.isUndefined($scope.selectedCountry);
     }
 
     $scope.status = calculationService.getStatus($scope.correct, $scope.total);
@@ -27,6 +33,7 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
         $scope.total = 0;
         $scope.correct = -1;
         $scope.attempt = 0;
+        $scope.progress = 0;
         return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
             function (data) {
                 $scope.flag = data.svg;
@@ -49,18 +56,24 @@ flagApp.factory('flagService', function ($http, $log, $q) {
               });
             return deferred.promise;
         },
+
         getColors: function () {
             return [
-                    { color: '#ffffff' },
-                    { color: '#007a3d' },
-                    { color: '#ff9933' },
-                    { color: '#00209f' },
-                    { color: '#dd0000' },
-                    { color: '#ffce00' },
-                    { color: '#ffceff' },
-                    { color: '#000000' }
+                    { color: '#ffffff' }, //white
+                    { color: '#cc0000' }, //red
+                    { color: '#0000cc' }, //blue
+                    { color: '#007f00' }, //green
+                    { color: '#ffb700' }, //yellow
+                    { color: '#ff6600' }, //orange
+                    { color: '#8d2029' }, //brown
+                    { color: '#bdbdbd' }, //gray
+                    { color: '#5b2d89' }, //purple
+                    { color: '#00a1de' },
+                    { color: '#ff99cc' },
+                    { color: '#000000' }  //black
             ];
         },
+
         getCountries: function () {
             return [
                         { name: 'India', value: 'india' },
@@ -82,28 +95,15 @@ flagApp.factory('calculationService', function (STATUS, $log, $q) {
             else {
                 return STATUS.IN_PROGRESS;
             }
+        },
+
+        getProgress: function (correct, total) {
+            return (total > 0) ? (parseInt((correct * 100) / total)) : 0;
         }
     }
 });
 
-//flagApp.directive('colorMenu', function () {
-//    return {
-//        restrict: 'E',
-//        replace: 'true',
-//        template: '<button type="button" class="btn btn-default">' +
-//                          '<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>' +
-//                      '</button>',
-//        link: function (scope, elem, attrs) {
-//            elem.css('color', scope.color.color);
-
-//            elem.bind('click', function (e) {
-//                $("#pickedColor").css("background-color", $(this).css("color"));
-//            });
-//        }
-//    };
-//});
-
-flagApp.directive('colorOptions', function () {
+flagApp.directive('colorPicker', function () {
     return {
         restrict: 'E',
         replace: 'true',
@@ -146,7 +146,7 @@ flagApp.directive('svgWrapper', function () {
                     });
                     scope.correct = correct;
                     scope.attempt = scope.attempt + 1;
-                    scope.getStatus();
+                    scope.getProgress();
                     scope.$apply();
                 });
             })

@@ -20,13 +20,18 @@
     <script type="text/javascript" src="/script/flagApp.js"></script>
 
     <style type="text/css">
+        body {
+            background-color: #FFEFD5;
+        }
+
         .circle {
             width: 50px;
             height: 50px;
             background: red;
-            -moz-border-radius: 50px;
-            -webkit-border-radius: 50px;
-            border-radius: 50px;
+            -moz-border-radius: 25px;
+            -webkit-border-radius: 25px;
+            border-radius: 25px;
+            cursor:pointer;
         }
     </style>
 </head>
@@ -48,6 +53,7 @@
                     <li class="active"><a href="#">Flag</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
+                    <li> <a href="http://www.crwflags.com/fotw/flags/xf-csts.html" target="_blank">Flag Statistics</a></li>
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
@@ -55,20 +61,21 @@
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <h1 class="page-header">Color Picker</h1>
                 <div class="row placeholders">
-                    <color-options ng-repeat="color in colors"></color-options>
+                    <color-picker ng-repeat="color in colors"></color-picker>
                 </div>
                 <h2 class="sub-header">
                     <select ng-model="selectedCountry" class="selectpicker" ng-change="getFlag()" ng-options="country.name for country in countries">
                         <option value="">-- choose country --</option>
                     </select>
-                    <button type="button" class="btn btn-info">Hints</button>
+                    <button type="button" class="btn btn-info">Hint</button>
+                    <button type="button" class="btn btn-info">Solution</button>
                 </h2>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                        60%
+                <div class="progress" ng-hide="hideControl()">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{width: progress+'%'}">
+                        {{progress}}%
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="placeholders" ng-hide="hideControl()">
                     <svg-wrapper svg-data="{{flag}}"></svg-wrapper>
                 </div>
             </div>
