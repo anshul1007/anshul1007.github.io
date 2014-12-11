@@ -11,6 +11,8 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.colors = flagService.getColors();
     $scope.countries = flagService.getCountries();
 
+    $scope.selectedCountry;
+
     $scope.total = 0;
     $scope.correct = -1;
     $scope.attempt = 0;
@@ -21,11 +23,11 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
 
     $scope.status = calculationService.getStatus($scope.correct, $scope.total);
 
-    $scope.getFlag = function (country) {
+    $scope.getFlag = function () {
         $scope.total = 0;
         $scope.correct = -1;
         $scope.attempt = 0;
-        return $scope.flag = flagService.getFlag(country).then(
+        return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
             function (data) {
                 $scope.flag = data.svg;
             });
@@ -71,7 +73,6 @@ flagApp.factory('flagService', function ($http, $log, $q) {
 flagApp.factory('calculationService', function (STATUS, $log, $q) {
     return {
         getStatus: function (correct, total) {
-            console.log("correct: " + correct + " total:" + total);
             if (correct < 0) {
                 return STATUS.TO_BE_STARTED;
             }
@@ -85,18 +86,35 @@ flagApp.factory('calculationService', function (STATUS, $log, $q) {
     }
 });
 
-flagApp.directive('colorMenu', function () {
+//flagApp.directive('colorMenu', function () {
+//    return {
+//        restrict: 'E',
+//        replace: 'true',
+//        template: '<button type="button" class="btn btn-default">' +
+//                          '<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>' +
+//                      '</button>',
+//        link: function (scope, elem, attrs) {
+//            elem.css('color', scope.color.color);
+
+//            elem.bind('click', function (e) {
+//                $("#pickedColor").css("background-color", $(this).css("color"));
+//            });
+//        }
+//    };
+//});
+
+flagApp.directive('colorOptions', function () {
     return {
         restrict: 'E',
         replace: 'true',
-        template: '<button type="button" class="btn btn-default">' +
-                          '<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>' +
-                      '</button>',
+        template: '<div class="col-xs-2 col-sm-1 placeholder">' +
+                        '<div class="circle"></div>' +
+                    '</div>',
         link: function (scope, elem, attrs) {
-            elem.css('color', scope.color.color);
+            elem.find(".circle").css('background-color', scope.color.color);
 
-            elem.bind('click', function (e) {
-                $("#pickedColor").css("background-color", $(this).css("color"));
+            elem.find(".circle").bind('click', function (e) {
+                $("#top-header").css("background-color", $(this).css("background-color"));
             });
         }
     };
@@ -116,7 +134,7 @@ flagApp.directive('svgWrapper', function () {
 
                 $("[actualColor]").on('click', function () {
 
-                    $(this).attr("fill", $("#pickedColor").css("background-color"));
+                    $(this).attr("fill", $("#top-header").css("background-color"));
 
                     var correct = 0;
                     $.each($("[actualColor]"), function (key, value) {
