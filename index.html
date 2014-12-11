@@ -31,7 +31,7 @@
             -moz-border-radius: 25px;
             -webkit-border-radius: 25px;
             border-radius: 25px;
-            cursor:pointer;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -59,19 +59,19 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h1 class="page-header">Color Picker</h1>
+                <h3 class="page-header">Color Picker</h3>
                 <div class="row placeholders">
                     <color-picker ng-repeat="color in colors"></color-picker>
                 </div>
                 <h2 class="sub-header">
-                    <select ng-model="selectedCountry" class="selectpicker" ng-change="getFlag()" ng-options="country.name for country in countries">
+                    <select ng-model="selectedCountry" class="selectpicker" data-style="btn-info" data-width="auto" ng-change="getFlag()" ng-options="country.name for country in countries">
                         <option value="">-- choose country --</option>
                     </select>
-                    <button type="button" class="btn btn-info">Hint</button>
-                    <button type="button" class="btn btn-info">Solution</button>
+                    <hint-button></hint-button>
+                    <solution-button></solution-button>
                 </h2>
                 <div class="progress" ng-hide="hideControl()">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{width: progress+'%'}">
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="{width: progress+'%'}">
                         {{progress}}%
                     </div>
                 </div>

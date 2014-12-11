@@ -16,6 +16,8 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.total = 0;
     $scope.correct = -1;
     $scope.attempt = 0;
+    $scope.showHint = false;
+    $scope.showSolution = false;
 
     $scope.getProgress = function () {
         $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
@@ -24,7 +26,7 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
 
     $scope.hideControl = function () {
-        return angular.isUndefined($scope.selectedCountry);
+        return angular.isUndefined($scope.selectedCountry) || $scope.selectedCountry === null;
     }
 
     $scope.status = calculationService.getStatus($scope.correct, $scope.total);
@@ -34,10 +36,16 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
         $scope.correct = -1;
         $scope.attempt = 0;
         $scope.progress = 0;
-        return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
+        $scope.flag = '';
+        $scope.showHint = false;
+
+        if (!$scope.hideControl()) {
+            $(".circle").show();
+            return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
             function (data) {
                 $scope.flag = data.svg;
             });
+        }
     };
 });
 
@@ -65,10 +73,10 @@ flagApp.factory('flagService', function ($http, $log, $q) {
                     { color: '#007f00' }, //green
                     { color: '#ffb700' }, //yellow
                     { color: '#ff6600' }, //orange
-                    { color: '#8d2029' }, //brown
+                    { color: '#00a1de' },
                     { color: '#bdbdbd' }, //gray
                     { color: '#5b2d89' }, //purple
-                    { color: '#00a1de' },
+                    { color: '#005641' },
                     { color: '#ff99cc' },
                     { color: '#000000' }  //black
             ];
@@ -120,6 +128,54 @@ flagApp.directive('colorPicker', function () {
     };
 });
 
+flagApp.directive('hintButton', function () {
+    return {
+        restrict: 'E',
+        replace: 'true',
+        template: '<button type="button" ng-hide="hideControl()" class="btn btn-warning">{{showHint ? "Show all colors" : "Show flag colors" }}</button>',
+        link: function (scope, elem, attrs) {
+
+            elem.bind('click', function (e) {
+                scope.showHint = !scope.showHint;
+                if (!scope.showHint) {
+                    $(".circle").show();
+                    //elem.text("Show flag colors");
+                }
+                else {
+                    $(".circle").hide();
+                    //elem.text("Show all colors");
+                    $.each($("[actualColor]"), function (key, value) {
+                        var actualColor = $(value).attr("actualColor");
+                        $('.circle').filter(function () {
+                            return rgbToHex($(this).css('background-color')) == actualColor;
+                        }).show();
+                    });
+                }
+                scope.$apply();
+            });
+        }
+    };
+});
+
+flagApp.directive('solutionButton', function () {
+    return {
+        restrict: 'E',
+        replace: 'true',
+        template: '<button type="button" ng-hide="hideControl()" class="btn btn-success">Solution</button>',
+        link: function (scope, elem, attrs) {
+            elem.bind('click', function (e) {
+                $.each($("[actualColor]"), function (key, value) {
+                    var actualColor = $(value).attr("actualColor");
+                    $(this).attr("fill", actualColor);
+                });
+                scope.correct = scope.total;
+                scope.getProgress();
+                scope.$apply();
+            });
+        }
+    };
+});
+
 flagApp.directive('svgWrapper', function () {
     return {
         restrict: 'E',
@@ -134,13 +190,13 @@ flagApp.directive('svgWrapper', function () {
 
                 $("[actualColor]").on('click', function () {
 
-                    $(this).attr("fill", $("#top-header").css("background-color"));
+                    $(this).attr("fill", rgbToHex($("#top-header").css("background-color")));
 
                     var correct = 0;
                     $.each($("[actualColor]"), function (key, value) {
                         var actualColor = $(value).attr("actualColor");
                         var fillColor = $(value).attr("fill");
-                        if (rgb2hex(fillColor) == actualColor) {
+                        if (rgbToHex(fillColor) == actualColor) {
                             correct++;
                         }
                     });
@@ -154,9 +210,23 @@ flagApp.directive('svgWrapper', function () {
     };
 });
 
-function rgb2hex(rgb) {
-    if (rgb.indexOf("#") > -1)
+function rgbToHex(rgb, g, b) {
+    if (rgb.toString().indexOf("#") > -1)
         return rgb;
-    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    return "#" + ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) + ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2);
+    if (g == undefined || b == undefined) {
+        if (typeof rgb == "string") {
+            var result = /^rgb[a]?\(([\d]+)[ \n]*,[ \n]*([\d]+)[ \n]*,[ \n]*([\d]+)[ \n]*,?[ \n]*([.\d]+)?[ \n]*\)$/i.exec(rgb);
+            return rgbToHex(parseInt(result[1]), parseInt(result[2]), parseInt(result[3]));
+        }
+        if (rgb.r == undefined || rgb.g == undefined || rgb.b == undefined) {
+            return null;
+        }
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    }
+    var r = rgb;
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
