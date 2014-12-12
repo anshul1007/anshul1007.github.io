@@ -8,8 +8,12 @@ flagApp.constant("STATUS", {
 
 flagApp.controller('GetflagController', function ($log, $scope, flagService, calculationService, STATUS) {
     $scope.flag = '';
-    $scope.colors = flagService.getColors();
-    $scope.countries = flagService.getCountries();
+    $scope.colors = [];
+    $scope.countries = [
+                        { "name": "India", "value": "india" },
+                        { "name": "Sri Lanka", "value": "srilanka" },
+                        { "name": "United States", "value": "unitedstates" }
+    ];
 
     $scope.selectedCountry;
 
@@ -18,6 +22,16 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.attempt = 0;
     $scope.showHint = false;
     $scope.showSolution = false;
+
+    //flagService.getCountries().then(
+    //        function (data) {
+    //            $scope.countries = data.countries;
+    //        });
+
+    flagService.getColors().then(
+           function (data) {
+               $scope.colors = data.colors;
+           });
 
     $scope.getProgress = function () {
         $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
@@ -66,28 +80,31 @@ flagApp.factory('flagService', function ($http, $log, $q) {
         },
 
         getColors: function () {
-            return [
-                    { color: '#ffffff' }, //white
-                    { color: '#cc0000' }, //red
-                    { color: '#0000cc' }, //blue
-                    { color: '#007f00' }, //green
-                    { color: '#ffb700' }, //yellow
-                    { color: '#ff6600' }, //orange
-                    { color: '#00a1de' },
-                    { color: '#bdbdbd' }, //gray
-                    { color: '#5b2d89' }, //purple
-                    { color: '#005641' },
-                    { color: '#ff99cc' },
-                    { color: '#000000' }  //black
-            ];
+            var deferred = $q.defer();
+            $http.get('data/colors.txt?tick=' + new Date().getTime())
+                .success(function (data) {
+                    deferred.resolve({
+                        colors: data
+                    });
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
         },
 
         getCountries: function () {
-            return [
-                        { name: 'India', value: 'india' },
-                        { name: 'Sri Lanka', value: 'srilanka' },
-                        { name: 'United States', value: 'unitedstates' }
-            ];
+            var deferred = $q.defer();
+            $http.get('data/countries.txt?tick=' + new Date().getTime())
+                .success(function (data) {
+                    deferred.resolve({
+                        countries: data
+                    });
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
         }
     }
 });
