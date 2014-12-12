@@ -80,10 +80,28 @@
                 <div class="placeholders" ng-hide="hideControl()">
                     <div class="row">
                         <div class="col-sm-12 col-md-7">
-                            <svg-wrapper svg-data="{{flag}}"></svg-wrapper>
+                            <svg-wrapper svg-data="{{flag.schema}}"></svg-wrapper>
                         </div>
                         <div class="col-sm-12 col-md-5">
                             <h3 class="page-header">Flag Facts</h3>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td><strong>Name</strong></td>
+                                    <td>{{flag.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Proportion</strong></td>
+                                    <td>{{flag.proportion}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Adopted</strong></td>
+                                    <td>{{flag.adopted}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>More</strong></td>
+                                    <td><a target="_blank" href="{{flag.more}}">Wikipedia</a></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

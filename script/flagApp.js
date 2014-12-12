@@ -57,7 +57,7 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
             $(".circle").show();
             return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
             function (data) {
-                $scope.flag = data.svg;
+                $scope.flag = data.flag;
             });
         }
     };
@@ -70,7 +70,7 @@ flagApp.factory('flagService', function ($http, $log, $q) {
             $http.get('svg/countries/' + country + '/flag.txt?tick=' + new Date().getTime())
               .success(function (data) {
                   deferred.resolve({
-                      svg: data
+                      flag: data
                   });
               }).error(function (msg, code) {
                   deferred.reject(msg);
@@ -202,7 +202,7 @@ flagApp.directive('svgWrapper', function () {
                 '</div>',
         link: function (scope, elem, attrs) {
             attrs.$observe('svgData', function (value) {
-                $(elem).empty().append(scope.flag);
+                $(elem).empty().append(scope.flag.schema);
 
                 scope.total = $("[actualColor]").size();
 
