@@ -66,6 +66,7 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
 flagApp.factory('flagService', function ($http, $log, $q) {
     return {
         getFlag: function (country) {
+            ga('send', 'event', 'httpGet', 'flag', country);
             var deferred = $q.defer();
             $http.get('svg/countries/' + country + '/flag.txt?tick=' + new Date().getTime())
               .success(function (data) {
@@ -81,6 +82,7 @@ flagApp.factory('flagService', function ($http, $log, $q) {
 
         getColors: function () {
             var deferred = $q.defer();
+            ga('send', 'event', 'httpGet', 'colors');
             $http.get('data/colors.txt?tick=' + new Date().getTime())
                 .success(function (data) {
                     deferred.resolve({
@@ -95,6 +97,7 @@ flagApp.factory('flagService', function ($http, $log, $q) {
 
         getCountries: function () {
             var deferred = $q.defer();
+            ga('send', 'event', 'httpGet', 'countries');
             $http.get('data/countries.txt?tick=' + new Date().getTime())
                 .success(function (data) {
                     deferred.resolve({
