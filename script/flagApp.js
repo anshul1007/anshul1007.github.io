@@ -10,9 +10,9 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.flag = '';
     $scope.colors = [];
     $scope.countries = [
-                        { "name": "India", "value": "india" },
-                        { "name": "Sri Lanka", "value": "srilanka" },
-                        { "name": "United States", "value": "unitedstates" }
+                        //{ "name": "India", "value": "india" },
+                        //{ "name": "Sri Lanka", "value": "srilanka" },
+                        //{ "name": "United States", "value": "unitedstates" }
     ];
 
     $scope.selectedCountry;
@@ -23,10 +23,10 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.showHint = false;
     $scope.showSolution = false;
 
-    //flagService.getCountries().then(
-    //        function (data) {
-    //            $scope.countries = data.countries;
-    //        });
+    flagService.getCountries().then(
+            function (data) {
+                $scope.countries = data.countries;
+            });
 
     flagService.getColors().then(
            function (data) {

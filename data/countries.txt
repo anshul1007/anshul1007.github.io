@@ -1,5 +1,18 @@
 [
-                        { "name": "India", "value": "india" },
-                        { "name": "Sri Lanka", "value": "srilanka" },
-                        { "name": "United States", "value": "unitedstates" }
-            ]
+  {
+    "name": "India",
+    "value": "india"
+  },
+  {
+    "name": "Sri Lanka",
+    "value": "srilanka"
+  },
+  {
+    "name": "United States",
+    "value": "unitedstates"
+  },
+  {
+    "name": "Japan",
+    "value": "japan"
+  }
+]
