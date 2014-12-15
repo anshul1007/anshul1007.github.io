@@ -77,8 +77,8 @@
                 </div>
                 <h2 class="sub-header">
                     <select ng-model="selectedCountry" class="selectpicker"
-                            data-style="btn-info" data-width="auto" ng-change="getFlag()" 
-                            ng-options="country.name for country in countries">
+                            data-style="btn-info" data-width="auto" ng-change="getFlag()"
+                            ng-options="item.country for item in flags">
                         <option value="">-- choose country --</option>
                     </select>
                     <hint-button></hint-button>
@@ -92,26 +92,26 @@
                 <div class="placeholders" ng-hide="hideControl()">
                     <div class="row">
                         <div class="col-sm-12 col-md-7">
-                            <svg-wrapper svg-data="{{flag.schema}}"></svg-wrapper>
+                            <svg-wrapper svg-data="{{selectedCountry.schema}}"></svg-wrapper>
                         </div>
                         <div class="col-sm-12 col-md-5">
                             <h3 class="page-header">Flag Facts</h3>
                             <table class="table table-bordered">
                                 <tr>
                                     <td><strong>Name</strong></td>
-                                    <td>{{flag.name}}</td>
+                                    <td>{{selectedCountry.name}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Proportion</strong></td>
-                                    <td>{{flag.proportion}}</td>
+                                    <td>{{selectedCountry.proportion}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Adopted</strong></td>
-                                    <td>{{flag.adopted}}</td>
+                                    <td>{{selectedCountry.adopted}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>More</strong></td>
-                                    <td><a target="_blank" href="{{flag.more}}">Wikipedia</a></td>
+                                    <td><a target="_blank" href="{{selectedCountry.more}}">Wikipedia</a></td>
                                 </tr>
                             </table>
                         </div>

@@ -7,13 +7,8 @@ flagApp.constant("STATUS", {
 });
 
 flagApp.controller('GetflagController', function ($log, $scope, flagService, calculationService, STATUS) {
-    $scope.flag = '';
     $scope.colors = [];
-    $scope.countries = [
-                        //{ "name": "India", "value": "india" },
-                        //{ "name": "Sri Lanka", "value": "srilanka" },
-                        //{ "name": "United States", "value": "unitedstates" }
-    ];
+    $scope.flags = [];
 
     $scope.selectedCountry;
 
@@ -23,9 +18,9 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
     $scope.showHint = false;
     $scope.showSolution = false;
 
-    flagService.getCountries().then(
+    flagService.getFlags().then(
             function (data) {
-                $scope.countries = data.countries;
+                $scope.flags = data.flags;
             });
 
     flagService.getColors().then(
@@ -50,35 +45,35 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
         $scope.correct = -1;
         $scope.attempt = 0;
         $scope.progress = 0;
-        $scope.flag = '';
         $scope.showHint = false;
 
         if (!$scope.hideControl()) {
             $(".circle").show();
-            return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
-            function (data) {
-                $scope.flag = data.flag;
-            });
+            ga('send', 'event', 'change', 'flag', $scope.selectedCountry.country);
+            //return $scope.flag = flagService.getFlag($scope.selectedCountry.value).then(
+            //function (data) {
+            //    $scope.flag = data.flag;
+            //});
         }
     };
 });
 
 flagApp.factory('flagService', function ($http, $log, $q) {
     return {
-        getFlag: function (country) {
-            ga('send', 'event', 'httpGet', 'flag', country);
-            var deferred = $q.defer();
-            $http.get('svg/countries/' + country + '/flag.txt?tick=' + new Date().getTime())
-              .success(function (data) {
-                  deferred.resolve({
-                      flag: data
-                  });
-              }).error(function (msg, code) {
-                  deferred.reject(msg);
-                  $log.error(msg, code);
-              });
-            return deferred.promise;
-        },
+        //getFlag: function (country) {
+        //    ga('send', 'event', 'httpGet', 'flag', country);
+        //    var deferred = $q.defer();
+        //    $http.get('svg/countries/' + country + '/flag.txt?tick=' + new Date().getTime())
+        //      .success(function (data) {
+        //          deferred.resolve({
+        //              flag: data
+        //          });
+        //      }).error(function (msg, code) {
+        //          deferred.reject(msg);
+        //          $log.error(msg, code);
+        //      });
+        //    return deferred.promise;
+        //},
 
         getColors: function () {
             var deferred = $q.defer();
@@ -95,13 +90,13 @@ flagApp.factory('flagService', function ($http, $log, $q) {
             return deferred.promise;
         },
 
-        getCountries: function () {
+        getFlags: function () {
             var deferred = $q.defer();
             ga('send', 'event', 'httpGet', 'countries');
-            $http.get('data/countries.txt?tick=' + new Date().getTime())
+            $http.get('data/flags.txt?tick=' + new Date().getTime())
                 .success(function (data) {
                     deferred.resolve({
-                        countries: data
+                        flags: data
                     });
                 }).error(function (msg, code) {
                     deferred.reject(msg);
@@ -205,7 +200,9 @@ flagApp.directive('svgWrapper', function () {
                 '</div>',
         link: function (scope, elem, attrs) {
             attrs.$observe('svgData', function (value) {
-                $(elem).empty().append(scope.flag.schema);
+                if (!scope.hideControl()) {
+                    $(elem).empty().append(scope.selectedCountry.schema);
+                }
 
                 scope.total = $("[actualColor]").size();
 
