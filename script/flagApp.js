@@ -20,7 +20,6 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
 
     flagService.getFlags().then(
             function (data) {
-                alert(data.flags);
                 $scope.flags = data.flags;
             });
 
