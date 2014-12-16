@@ -131,9 +131,13 @@ flagApp.directive('colorPicker', function () {
     return {
         restrict: 'E',
         replace: 'true',
-        template: '<div class="col-xs-2 col-sm-1 placeholder">' +
-                        '<div class="circle"></div>' +
-                    '</div>',
+        template: '<div class="col-xs-2 col-sm-1 placeholder">
+            ' +
+                        '<div class="circle"></div>
+            ' +
+                    '
+</div>
+',
         link: function (scope, elem, attrs) {
             elem.find(".circle").css('background-color', scope.color.color);
 
@@ -148,7 +152,8 @@ flagApp.directive('hintButton', function () {
     return {
         restrict: 'E',
         replace: 'true',
-        template: '<button type="button" ng-hide="hideControl()" class="btn btn-warning">{{showHint ? "Show all colors" : "Show flag colors" }}</button>',
+        template: '
+<button type="button" ng-hide="hideControl()" class="btn btn-warning">{{showHint ? "Show all colors" : "Show flag colors" }}</button>',
         link: function (scope, elem, attrs) {
 
             elem.bind('click', function (e) {
@@ -177,7 +182,8 @@ flagApp.directive('solutionButton', function () {
     return {
         restrict: 'E',
         replace: 'true',
-        template: '<button type="button" ng-hide="hideControl()" class="btn btn-success">Solution</button>',
+        template: '
+<button type="button" ng-hide="hideControl()" class="btn btn-success">Solution</button>',
         link: function (scope, elem, attrs) {
             elem.bind('click', function (e) {
                 $.each($("[actualColor]"), function (key, value) {
@@ -196,7 +202,8 @@ flagApp.directive('svgWrapper', function () {
     return {
         restrict: 'E',
         replace: 'true',
-        template: '<div id="svg-wrapper"></div>' +
+        template: '<div id="svg-wrapper"></div>
+' +
                 '</div>',
         link: function (scope, elem, attrs) {
             attrs.$observe('svgData', function (value) {
@@ -227,6 +234,19 @@ flagApp.directive('svgWrapper', function () {
         }
     };
 });
+
+flagApp.directive('selectPicker', ['$timeout', function($timeout){
+    return {
+      restrict: 'A',
+      link:function(scope, elem,attrs){
+	   attrs.$observe('selectData', function (value) {
+        $timeout(function() {
+          elem.selectpicker('refresh');
+        }, 0);
+		});
+      }
+    };
+}]);
 
 function rgbToHex(rgb, g, b) {
     if (rgb.toString().indexOf("#") > -1)

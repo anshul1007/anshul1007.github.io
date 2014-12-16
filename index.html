@@ -76,8 +76,7 @@
                     <color-picker ng-repeat="color in colors"></color-picker>
                 </div>
                 <h2 class="sub-header">
-                    <select ng-model="selectedCountry" 
-                            data-style="btn-info" data-width="auto" ng-change="getFlag()"
+                    <select ng-model="selectedCountry" id="test" select-picker select-data="{{flags}}"                           data-style="btn-info" data-width="auto" ng-change="getFlag()"
                             ng-options="item.country for item in flags">
                         <option value="">-- choose country --</option>
                     </select>
