@@ -7,7 +7,7 @@ flagApp.constant("STATUS", {
 });
 
 flagApp.controller('GetflagController', function ($log, $scope, flagService, calculationService, STATUS) {
-    $scope.colors = [];
+    //$scope.colors = [];
     $scope.flags = [];
 
     $scope.selectedCountry;
@@ -23,10 +23,10 @@ flagApp.controller('GetflagController', function ($log, $scope, flagService, cal
                 $scope.flags = data.flags;
             });
 
-    flagService.getColors().then(
-           function (data) {
-               $scope.colors = data.colors;
-           });
+    //flagService.getColors().then(
+    //       function (data) {
+    //           $scope.colors = data.colors;
+    //       });
 
     $scope.getProgress = function () {
         $scope.progress = calculationService.getProgress($scope.correct, $scope.total);
@@ -75,20 +75,20 @@ flagApp.factory('flagService', function ($http, $log, $q) {
         //    return deferred.promise;
         //},
 
-        getColors: function () {
-            var deferred = $q.defer();
-            ga('send', 'event', 'httpGet', 'colors');
-            $http.get('data/colors.txt?tick=' + new Date().getTime())
-                .success(function (data) {
-                    deferred.resolve({
-                        colors: data
-                    });
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
-                });
-            return deferred.promise;
-        },
+        //getColors: function () {
+        //    var deferred = $q.defer();
+        //    ga('send', 'event', 'httpGet', 'colors');
+        //    $http.get('data/colors.txt?tick=' + new Date().getTime())
+        //        .success(function (data) {
+        //            deferred.resolve({
+        //                colors: data
+        //            });
+        //        }).error(function (msg, code) {
+        //            deferred.reject(msg);
+        //            $log.error(msg, code);
+        //        });
+        //    return deferred.promise;
+        //},
 
         getFlags: function () {
             var deferred = $q.defer();
@@ -155,11 +155,9 @@ flagApp.directive('hintButton', function () {
                 scope.showHint = !scope.showHint;
                 if (!scope.showHint) {
                     $(".circle").show();
-                    //elem.text("Show flag colors");
                 }
                 else {
                     $(".circle").hide();
-                    //elem.text("Show all colors");
                     $.each($("[actualColor]"), function (key, value) {
                         var actualColor = $(value).attr("actualColor");
                         $('.circle').filter(function () {
