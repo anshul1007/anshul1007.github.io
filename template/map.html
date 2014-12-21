@@ -2,12 +2,29 @@
     <select class="selectpicker" data-style="btn-info" data-width="auto">
         <option value="">India</option>
     </select>
-    <span ng-show="getState()"> Where is <span class="label label-warning" id="stateName">{{getState()}}</span>? </span>
+    <map-solution></map-solution>
 </h2>
+<h3 class="page-header" ng-show="getState()">
+    <span> Where is <span class="label label-warning" id="stateName">{{getState()}}</span>? </span>
+</h3>
 <div class="placeholders">
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <svg-map svg-data="{{mapSVG}}"></svg-map>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="row" ng-repeat="state in stateToPrint">
+                <div class="col-sm-2 col-md-1">
+                    <div class="pull-right">
+                        {{state.id}}
+                    </div>
+                </div>
+                <div class="col-sm-10 col-md-11">
+                    <div class="pull-left">
+                        <a href="http://en.wikipedia.org/wiki/{{state.value}}" target="_blank">{{state.name}}</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

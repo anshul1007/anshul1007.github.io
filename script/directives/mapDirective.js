@@ -9,6 +9,11 @@
           link: function (scope, elem, attrs) {
               attrs.$observe('svgData', function (value) {
                   $(elem).empty().append(scope.mapSVG);
+
+                  $timeout(function () {
+                      elem.selectpicker('refresh');
+                  }, 0);
+
                   $.each($(elem).find("[stateName]"), function (key, value) {
                       $timeout(function () {
                           scope.states.push($(value).attr("stateName"));
@@ -17,13 +22,34 @@
                   });
 
                   $(elem).find("[stateName]").on('click', function () {
-                      if ($('#stateName').text() === $(this).attr("stateName")) {
+                      var stateName = $(this).attr("stateName");
+                      if ($('#stateName').text() === stateName) {
                           $(this).attr("fill", "#ff8000");
+                          angular.forEach(scope.stateInfo, function (value, key) {
+                              if (value.name === stateName)
+                                  this.push(value);
+                          }, scope.stateToPrint);
                           scope.states.pop();
                           scope.$apply();
                       }
                   });
               })
+          }
+      };
+  });
+
+angular
+  .module('app')
+  .directive('mapSolution', function () {
+      return {
+          restrict: 'E',
+          replace: 'true',
+          template: '<button type="button" class="btn btn-success">Solution</button>',
+          link: function (scope, elem, attrs) {
+              elem.bind('click', function (e) {
+                  scope.stateToPrint = scope.stateInfo;
+                  scope.$apply();
+              });
           }
       };
   });
