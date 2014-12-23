@@ -24,12 +24,15 @@
                   $(elem).find("[stateName]").on('click', function () {
                       var stateName = $(this).attr("stateName");
                       if ($('#stateName').text() === stateName) {
-                          $(this).attr("fill", "#ff8000");
+                          $(elem).find("[stateName='" + stateName + "']").attr("fill", "#ff8000");
                           angular.forEach(scope.stateInfo, function (value, key) {
                               if (value.name === stateName)
                                   this.push(value);
                           }, scope.stateToPrint);
-                          scope.states.pop();
+                          var i;
+                          while ((i = scope.states.indexOf(stateName)) !== -1) {
+                              scope.states.splice(i, 1);
+                          }
                           scope.$apply();
                       }
                   });
